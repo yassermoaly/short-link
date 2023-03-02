@@ -10,10 +10,16 @@ var validateToken = function (token) {
     return jwt.verify(token, config.JWT_SECRET_KEY);
 }
 
-router.get('/:id', (req, res) => {
+router.get('/go/:id', (req, res) => {
     db.links.findByPk(req.params.id).then(record => {
         res.redirect(record.link);
     });
+});
+router.get('/', (req, res) => {
+    res.writeHead(302, {
+        'Location': 'https://www.hiiauto.com'
+    });
+    res.end();
 });
 
 router.post('/auth/generateToken', (req, res) => {
@@ -46,25 +52,32 @@ router.post('/create', (req, res) => {
     if (validateToken(req.headers.authorization)) {
         var sysDate = new Date();
         const hostFullUrl = `${req.protocol}://${req.headers.host}`;
-        console.log(req.body.link);
-        db.links.findAll({
-            where: {
-                link: req.body.link,
-            }
-        }).then(records => {
-            if (records.length > 0) {
-                res.send({ 'url': `${hostFullUrl}/${records[0].id}` });
-            }
-            else {
-                var newRecord = {
-                    link: req.body.link,
-                    createdAt: sysDate
-                }
-                db.links.create(newRecord).then(newRecord => {
-                    res.send({ 'url': `${hostFullUrl}/${newRecord.id}` });
-                });
-            }
+        var newRecord = {
+            link: req.body.link,
+            createdAt: sysDate
+        }
+        db.links.create(newRecord).then(newRecord => {
+            res.send({ 'url': `${hostFullUrl}/go/${newRecord.id}` });
         });
+        // console.log(req.body.link);
+        // db.links.findAll({
+        //     where: {
+        //         link: req.body.link,
+        //     }
+        // }).then(records => {
+        //     if (records.length > 0) {
+        //         res.send({ 'url': `${hostFullUrl}/${records[0].id}` });
+        //     }
+        //     else {
+        //         var newRecord = {
+        //             link: req.body.link,
+        //             createdAt: sysDate
+        //         }
+        //         db.links.create(newRecord).then(newRecord => {
+        //             res.send({ 'url': `${hostFullUrl}/go/${newRecord.id}` });
+        //         });
+        //     }
+        // });
     }
     else
         res.status(401).json({ errors: "Invalid Login" });

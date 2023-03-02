@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         link: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             primaryKey: false
         },
         createdAt: {

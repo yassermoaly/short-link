@@ -9,14 +9,14 @@ app.use(express.json());
 app.use('/', mainController);
 
 
-app.get('/admin', (req, res) => {
-  res.redirect('index.html');
-});
 
 
 app.use(express.static('public'))
 
 
+// app.get('/admin', (req, res) => {
+//   res.redirect('index.html');
+// });
 
 
 

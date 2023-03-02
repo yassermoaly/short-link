@@ -3,7 +3,7 @@
     "username": "root",
     "password": "WHM@dmin123",
     "database": "short_links",
-    "host": "mysql-db",
+    "host": "51.222.106.132",
     "dialect": "mysql",
     "JWT_SECRET_KEY": "643b4d92-b351-11ed-afa1-0242ac120002"
   },
@@ -11,7 +11,7 @@
     "username": "root",
     "password": "@shrafco@dmin123",
     "database": "short_links",
-    "host": "mysql-db",
+    "host": "51.222.106.132",
     "dialect": "mysql",
     "JWT_SECRET_KEY": "643b4d92-b351-11ed-afa1-0242ac120002"
   },
@@ -19,7 +19,7 @@
     "username": "root",
     "password": "@shrafco@dmin123",
     "database": "short_links",
-    "host": "mysql-db",
+    "host": "51.222.106.132",
     "dialect": "mysql",
     "JWT_SECRET_KEY": "643b4d92-b351-11ed-afa1-0242ac120002"
   }
