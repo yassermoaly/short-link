@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "root",
+    "password": "WHM@dmin123",
+    "database": "short_links",
+    "host": "mysql-db",
+    "dialect": "mysql",
+    "JWT_SECRET_KEY": "643b4d92-b351-11ed-afa1-0242ac120002"
+  },
+  "test": {
+    "username": "root",
+    "password": "@shrafco@dmin123",
+    "database": "short_links",
+    "host": "mysql-db",
+    "dialect": "mysql",
+    "JWT_SECRET_KEY": "643b4d92-b351-11ed-afa1-0242ac120002"
+  },
+  "production": {
+    "username": "root",
+    "password": "@shrafco@dmin123",
+    "database": "short_links",
+    "host": "mysql-db",
+    "dialect": "mysql",
+    "JWT_SECRET_KEY": "643b4d92-b351-11ed-afa1-0242ac120002"
+  }
+}
