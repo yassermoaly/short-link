@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            autoIncrement: true,
             allowNull: false
         },
         username: {
@@ -13,6 +14,16 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             primaryKey: false
         },
+        isAdmin: {
+            type: DataTypes.BOOLEAN,
+            primaryKey: false,
+            allowNull: false
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            primaryKey: false,
+            allowNull: false
+        },
         createdAt: {
             type: DataTypes.DATE,
             primaryKey: false
@@ -20,9 +31,7 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: {
             type: DataTypes.DATE,
             primaryKey: false
-        }
-        
-        
+        } 
     });
 
     return users;

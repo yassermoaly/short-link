@@ -10,6 +10,12 @@ app.service('loginService', ['$http', function ($http) {
     this.saveToken = function (token) {
         localStorage.setItem('access_token', token);
     }
+    this.saveUser = function (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+    }
+    this.getLogin = function (user) {
+        return JSON.parse(localStorage.getItem('user'));
+    }
     this.logout = function (token) {
         localStorage.setItem('access_token', '');
     }
@@ -40,18 +46,24 @@ app.controller('main-controller', ['$scope', 'loginService', function ($scope, l
     $scope.isLoggedin = function () {
         return loginService.isLoggedin();
     }
+    $scope.loggedInUser = loginService.getLogin();
     $scope.login = function () {
         $scope.errorMessage = '';
         $scope.isLoading = true;
         loginService.login($scope.loginData).then(function (res) {
             if (res.data.status == 'success') {
                 loginService.saveToken(res.data.token);
+                loginService.saveUser(res.data.user);
+                $scope.loggedInUser = res.data.user;
             }
             else {
                 $scope.errorMessage = 'Invalid Login';
             }
             $scope.isLoading = false;
         });
+    }
+    $scope.gotoUsers = function(){
+        window.location.href = '/users.html';
     }
     $scope.logout = function () {
         loginService.logout();
@@ -60,9 +72,12 @@ app.controller('main-controller', ['$scope', 'loginService', function ($scope, l
         $scope.isLoading = true;
         loginService.createLink($scope.create).then(function (res) {
             debugger;
-            $scope.shortUrl = res.data.url;
-            navigator.clipboard.writeText(res.data.url);
+            $scope.shortUrl = res.data.url;           
             $scope.isLoading = false;
+            navigator.clipboard.writeText(res.data.url);
+        },function(){
+            $scope.isLoading = false;
+            loginService.logout();
         })
     }
 }]);

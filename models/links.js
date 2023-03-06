@@ -17,6 +17,15 @@ module.exports = (sequelize, DataTypes) => {
         updatedAt: {
             type: DataTypes.DATE,
             primaryKey: false
+        },
+        isVisited: {
+            type: DataTypes.BOOLEAN,
+            primaryKey: false,
+            allowNull: false
+        },
+        visitedAt: {
+            type: DataTypes.DATE,
+            primaryKey: false
         }
     });
 

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/js/angular.min.js"></script>
+    <script type="text/javascript" src="/js/users.js"></script>
+
+
+</head>
+
+<body ng-app="app" ng-controller="main-controller">
+    <form ng-if="!isLoggedin()" novalidate name="frmLogin" ng-submit="login()">
+        <div class="loginModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Login</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>User Name <span class="text-danger">*</span></label>
+                                <input required autofocus type="text" class="form-control" name="username" id="username"
+                                    ng-model="loginData.username" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Password <span class="text-danger">*</span></label>
+                                <input required type="password" class="form-control" name="password" id="password"
+                                    ng-model="loginData.password" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-danger">
+                        {{errorMessage}}
+                    </div>
+                    <div class="modal-footer">
+                        <button style="background-color: white;color: black;" type="submit"
+                            ng-disabled="frmLogin.$invalid || isLoading" class="btn btn-primary">Login
+                            <img ng-if="isLoading" src="/images/loading.svg" style="width: 32px;">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <form ng-if="isLoggedin() && mode == 'view'" novalidate name="frmCreateLink">
+        <div class="createLinkModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Users</h5>
+                        <button type="button" ng-click="logout()" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12 text-center" ng-if="isLoading">
+                                <img ng-if="isLoading" src="/images/loading.svg" style="width: 32px;"> Loading users...
+                            </div>
+
+                            <table ng-if="!isLoading" class="table table-striped">
+                                <thead>
+                                    <th>Id</th>
+                                    <th>Username</th>
+                                    <th>Type</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="user in users">
+                                        <td>
+                                            <a href="#"  ng-click="open(user)">
+                                                {{user.id}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="#" ng-click="open(user)">{{user.username}}</a>
+                                        </td>
+                                        <td>
+                                            <span ng-if="item.isAdmin">Admin</span>
+                                            <span ng-if="!item.isAdmin">User</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody ng-if="users && users.length == 0">
+                                    <tr>
+                                        <td colspan="3" class="text-center">
+                                            No Data
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button style="background-color: white;color: black;" type="button" ng-click="add()"
+                            class="btn btn-primary">Create
+
+                        </button>
+                        <button style="background-color: white;color: black;" type="button" ng-click="gotoLinks()"
+                            class="btn btn-primary">Create Short Links
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <form ng-if="isLoggedin() && mode != 'view'" novalidate name="frmManageUsers" ng-submit="save()">
+        <div class="createLinkModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Users</h5>
+                        <button type="button" ng-click="back()" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>User Name <span class="text-danger">*</span></label>
+                                <input ng-disabled="item.id>0" required autofocus type="text" class="form-control" name="username" id="username"
+                                    ng-model="item.username" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Password <span class="text-danger">*</span></label>
+                                <input required autofocus type="text" class="form-control" name="username" id="username"
+                                    ng-model="item.password" />
+                            </div>
+                            <div class="col-md-12">
+                                <label>Is Admin <span class="text-danger">*</span></label>
+                                <select class="form-control" required id="isAdmin" name="isAdmin" ng-model="item.isAdmin" ng-options="o.value as
+                                o.name for o in isAdminOptions"></select>                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button style="background-color: white;color: black;" type="submit"
+                            ng-disabled="frmManageUsers.$invalid || isLoading || isLoadingDelete" class="btn btn-primary">Save
+                            <img ng-if="isLoading" src="/images/loading.svg" style="width: 32px;">
+                        </button>
+                        <button ng-if="item.id>0" style="background-color: white;color: black;" type="button" ng-click="delete()"
+                            ng-disabled="frmManageUsers.$invalid || isLoading || isLoadingDelete" class="btn btn-primary">Delete
+                            <img ng-if="isLoadingDelete" src="/images/loading.svg" style="width: 32px;">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</body>
+
+</html>
