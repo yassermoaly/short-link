@@ -60,7 +60,9 @@ router.post('/create', (req, res) => {
     validateToken(req.headers.authorization, function (claims) {
         if (claims) {
             var sysDate = new Date();
-            const hostFullUrl = `${req.protocol}://${req.headers.host}`;
+            console.log(JSON.stringify(req.headers));
+            //const hostFullUrl = `${req.protocol}://${req.headers.host}`;
+            const hostFullUrl = `${req.headers.origin}`;
             var newRecord = {
                 link: req.body.link,
                 createdAt: sysDate,
