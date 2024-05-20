@@ -7,7 +7,7 @@ docker start af5d29a940d2
 docker start 45e4301dad43
 docker start a3da61490056
 docker start d8edabd39818
-
+sudo truncate -s 0 /var/lib/docker/containers/*/*-json.log
 http://malloftires.com:4000/automobile/alfa-romeo-75-1985-1992-1591860597.123725.jpg
 
 http://malloftires.com:8080/v1/makes/?countries=AU%2CCN%2CCZ%2CDE%2CES%2CFR%2CGB%2CIN%2CIT%2CJP%2CKR%2CMY%2CRO%2CRU%2CSE%2CUA%2CUS%2CUZ&user_key=2cd8f022711051d56f1dd8a6244dc3e1
